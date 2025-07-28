@@ -33,6 +33,13 @@ int main(){
     do {
 
 
+        for(i = 0; i< strlen(PalavraSecreta); i++){
+            printf("_ ");
+        }
+
+        printf("\n");
+
+
         printf("Chute uma letra: ");
         scanf(" %c", &chute);
 
