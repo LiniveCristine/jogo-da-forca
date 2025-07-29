@@ -21,14 +21,14 @@ int main(){
     PalavraSecreta[7] = 'A';
     PalavraSecreta[8] = '\0'; //indica que a string acabou
 
-    int GanhouPartida, enforcou, errou;
+    int GanhouPartida, enforcou, acertou;
     int tentativas, achou;
     char ChuteRodada;
     char chutes[26];
 
     GanhouPartida = 0;
     enforcou = 0;
-    errou = 0;
+    acertou = 0;
     tentativas = 0;
     achou = 0;
 
@@ -36,6 +36,9 @@ int main(){
 
     do {
 
+        printf("\n");
+        printf("***********************\n");
+        //printf("\n");
 
         for(int i = 0; i< strlen(PalavraSecreta); i++){
             for (int n = 0; n < tentativas ; n++){
@@ -60,7 +63,6 @@ int main(){
 
         printf("\n");
 
-
         printf("Chute uma letra: ");
         scanf(" %c", &ChuteRodada);
         chutes[tentativas] = ChuteRodada;
@@ -68,19 +70,22 @@ int main(){
 
         for(int i = 0; i < strlen(PalavraSecreta); i++){
           if (ChuteRodada == PalavraSecreta[i]){
-                errou = 0;
+                acertou = 1;
                 break;
 
             } else{
-                errou = 1;
+                acertou = 0;
             }
         }
 
-        if (errou){
-            printf("OPS! TENTE OUTRA LETRA\n");
-        } else {
+        if (acertou){
             printf("OBA! LETRA ENCONTRADA\n");
+
+        } else {
+            printf("OPS! TENTE OUTRA LETRA\n");
+
         }
+
 
         tentativas++;
 
