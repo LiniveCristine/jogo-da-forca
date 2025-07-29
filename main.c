@@ -21,46 +21,68 @@ int main(){
     PalavraSecreta[7] = 'A';
     PalavraSecreta[8] = '\0'; //indica que a string acabou
 
-    int GanhouPartida, enforcou, acertou;
-    int i;
-    char chute;
+    int GanhouPartida, enforcou, errou;
+    int tentativas, achou;
+    char ChuteRodada;
+    char chutes[26];
 
     GanhouPartida = 0;
     enforcou = 0;
-    acertou = 0;
+    errou = 0;
+    tentativas = 0;
+    achou = 0;
+
 
 
     do {
 
 
-        for(i = 0; i< strlen(PalavraSecreta); i++){
-            printf("_ ");
+        for(int i = 0; i< strlen(PalavraSecreta); i++){
+            for (int n = 0; n < tentativas ; n++){
+
+                if (PalavraSecreta[i] == chutes[n]){
+                    achou = 1;
+                    break;
+
+                }
+            }
+
+            if (achou){
+                printf("%c", PalavraSecreta[i]);
+            } else{
+                printf(" _");
+
+            }
+
+            achou = 0;
+
         }
 
         printf("\n");
 
 
         printf("Chute uma letra: ");
-        scanf(" %c", &chute);
+        scanf(" %c", &ChuteRodada);
+        chutes[tentativas] = ChuteRodada;
 
-        for(i = 0; i<= strlen(PalavraSecreta); i++){
-            if (chute == PalavraSecreta[i]){
-                acertou = 1;
+
+        for(int i = 0; i < strlen(PalavraSecreta); i++){
+          if (ChuteRodada == PalavraSecreta[i]){
+                errou = 0;
                 break;
 
+            } else{
+                errou = 1;
             }
         }
 
-        if (acertou){
-            printf("A letra %c esta CORRETA\n", chute);
-
-        }else {
-            printf("A letra %c esta INCORRETA\n", chute);
-
+        if (errou){
+            printf("OPS! TENTE OUTRA LETRA\n");
+        } else {
+            printf("OBA! LETRA ENCONTRADA\n");
         }
 
-        acertou = 0;
-        //limpar_entrada();
+        tentativas++;
 
         printf("\n");
 
