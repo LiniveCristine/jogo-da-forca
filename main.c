@@ -14,9 +14,37 @@ void abertura(){
 
 }
 
-void VerificarChute(int ChuteRodada, char PalavraSecreta[]){
+void VerificarNumero(char PalavraSecreta[], char chutes[], int tentativas){
+
+    int achou = 0;
+    printf("  ");
+
+    for(int i = 0; i< strlen(PalavraSecreta); i++){
+        for (int n = 0; n < tentativas ; n++){
+
+            if (PalavraSecreta[i] == chutes[n]){
+                achou = 1;
+                break;
+
+            }
+        }
+
+        if (achou){
+            printf(" %c", PalavraSecreta[i]);
+        } else{
+            printf(" _");
+
+        }
+
+        achou = 0;
+    }
+
+}
+
+void MensagemJogada(int ChuteRodada, char PalavraSecreta[]){
 
         int acertou = 0;
+
         for(int i = 0; i < strlen(PalavraSecreta); i++){
           if (ChuteRodada == PalavraSecreta[i]){
                 acertou = 1;
@@ -68,28 +96,8 @@ int main(){
 
     do {
 
-        printf("  ");
 
-        for(int i = 0; i< strlen(PalavraSecreta); i++){
-            for (int n = 0; n < tentativas ; n++){
-
-                if (PalavraSecreta[i] == chutes[n]){
-                    achou = 1;
-                    break;
-
-                }
-            }
-
-            if (achou){
-                printf(" %c", PalavraSecreta[i]);
-            } else{
-                printf(" _");
-
-            }
-
-            achou = 0;
-
-        }
+        VerificarNumero(PalavraSecreta, chutes, tentativas);
 
         printf("\n");
 
@@ -99,7 +107,7 @@ int main(){
         chutes[tentativas] = ChuteRodada;
         tentativas++;
 
-        VerificarChute(ChuteRodada, PalavraSecreta);
+        MensagemJogada(ChuteRodada, PalavraSecreta);
 
 
         printf("\n");
