@@ -2,9 +2,39 @@
 #include <string.h>
 
 
-void limpar_entrada() {
-    char c;
-    while ((c = getchar()) != '\n' && c != EOF) {}
+void abertura(){
+
+    printf("\n");
+    printf("   ****************************\n");
+    printf("\n");
+    printf("   BEM VINDO AO JOGO DA FORCA\n");
+    printf("\n");
+    printf("   ****************************\n");
+    printf("\n");
+
+}
+
+void VerificarChute(int ChuteRodada, char PalavraSecreta[]){
+
+        int acertou = 0;
+        for(int i = 0; i < strlen(PalavraSecreta); i++){
+          if (ChuteRodada == PalavraSecreta[i]){
+                acertou = 1;
+                break;
+
+            } else{
+                acertou = 0;
+            }
+        }
+
+        if (acertou){
+            printf("   OBA! LETRA ENCONTRADA\n");
+
+        } else {
+            printf("   OPS! TENTE OUTRA LETRA\n");
+
+        }
+
 }
 
 
@@ -21,24 +51,24 @@ int main(){
     PalavraSecreta[7] = 'A';
     PalavraSecreta[8] = '\0'; //indica que a string acabou
 
-    int GanhouPartida, enforcou, acertou;
+    int GanhouPartida, enforcou;
     int tentativas, achou;
     char ChuteRodada;
     char chutes[26];
 
     GanhouPartida = 0;
     enforcou = 0;
-    acertou = 0;
     tentativas = 0;
     achou = 0;
 
 
 
+    abertura();
+
+
     do {
 
-        printf("\n");
-        printf("***********************\n");
-        //printf("\n");
+        printf("  ");
 
         for(int i = 0; i< strlen(PalavraSecreta); i++){
             for (int n = 0; n < tentativas ; n++){
@@ -51,7 +81,7 @@ int main(){
             }
 
             if (achou){
-                printf("%c", PalavraSecreta[i]);
+                printf(" %c", PalavraSecreta[i]);
             } else{
                 printf(" _");
 
@@ -63,41 +93,21 @@ int main(){
 
         printf("\n");
 
-        printf("Chute uma letra: ");
+
+        printf("   Chute uma letra: ");
         scanf(" %c", &ChuteRodada);
         chutes[tentativas] = ChuteRodada;
-
-
-        for(int i = 0; i < strlen(PalavraSecreta); i++){
-          if (ChuteRodada == PalavraSecreta[i]){
-                acertou = 1;
-                break;
-
-            } else{
-                acertou = 0;
-            }
-        }
-
-        if (acertou){
-            printf("OBA! LETRA ENCONTRADA\n");
-
-        } else {
-            printf("OPS! TENTE OUTRA LETRA\n");
-
-        }
-
-
         tentativas++;
 
+        VerificarChute(ChuteRodada, PalavraSecreta);
+
+
+        printf("\n");
+        printf("   ***********************\n");
         printf("\n");
 
 
     } while(!GanhouPartida && !enforcou);
-
-
-
-
-
 
 
 return 0;
