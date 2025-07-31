@@ -31,17 +31,28 @@ void VerificarNumero(char PalavraSecreta[], char chutes[], int tentativas){
 
         if (achou){
             printf(" %c", PalavraSecreta[i]);
+
         } else{
             printf(" _");
 
         }
-
         achou = 0;
     }
 
 }
 
-void MensagemJogada(int ChuteRodada, char PalavraSecreta[]){
+
+void chute (char* ChuteRodada, char chutes[], int* tentativas ){
+
+    printf("   Chute uma letra: ");
+    scanf(" %c", &*ChuteRodada);
+    chutes[*tentativas] = *ChuteRodada;
+    (*tentativas)++;
+
+
+}
+
+void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
 
         int acertou = 0;
 
@@ -102,10 +113,7 @@ int main(){
         printf("\n");
 
 
-        printf("   Chute uma letra: ");
-        scanf(" %c", &ChuteRodada);
-        chutes[tentativas] = ChuteRodada;
-        tentativas++;
+        chute(&ChuteRodada, chutes, &tentativas);
 
         MensagemJogada(ChuteRodada, PalavraSecreta);
 
