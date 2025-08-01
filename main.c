@@ -61,8 +61,6 @@ void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
                 acertou = 1;
                 break;
 
-            } else{
-                acertou = 0;
             }
         }
 
@@ -91,14 +89,13 @@ int main(){
     PalavraSecreta[8] = '\0'; //indica que a string acabou
 
     int GanhouPartida, enforcou;
-    int tentativas, achou;
+    int tentativas;
     char ChuteRodada;
     char chutes[26];
 
     GanhouPartida = 0;
     enforcou = 0;
     tentativas = 0;
-    achou = 0;
 
 
 
@@ -111,7 +108,6 @@ int main(){
         VerificarNumero(PalavraSecreta, chutes, tentativas);
 
         printf("\n");
-
 
         chute(&ChuteRodada, chutes, &tentativas);
 
