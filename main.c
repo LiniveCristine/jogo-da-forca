@@ -39,6 +39,24 @@ void VerificarNumero(char PalavraSecreta[], char chutes[], int tentativas){
         achou = 0;
     }
 
+
+
+}
+
+void ChuteRepetido(int tentativas, char* chutes, char ChuteRodada){
+    int repetido = 0;
+
+
+    for(int i = 0; i < tentativas; i++){
+       if (ChuteRodada == chutes[i]){
+            repetido = 1;
+            break;
+
+        }
+    }
+        if (repetido){
+            printf("   LETRA REPETIDA\n");
+            }
 }
 
 
@@ -46,11 +64,15 @@ void chute (char* ChuteRodada, char chutes[], int* tentativas ){
 
     printf("   Chute uma letra: ");
     scanf(" %c", &*ChuteRodada);
+
+    ChuteRepetido(*tentativas, chutes, *ChuteRodada);
+
     chutes[*tentativas] = *ChuteRodada;
     (*tentativas)++;
 
 
 }
+
 
 void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
 
@@ -64,10 +86,7 @@ void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
             }
         }
 
-        if (acertou){
-            printf("   OBA! LETRA ENCONTRADA\n");
-
-        } else {
+        if (!acertou){
             printf("   OPS! TENTE OUTRA LETRA\n");
 
         }
