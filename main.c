@@ -14,7 +14,12 @@ void abertura(){
 
 }
 
-void VerificarNumero(char PalavraSecreta[], char chutes[], int tentativas){
+void EscolhePalavra(char* PalavraSecreta){
+
+    sprintf(PalavraSecreta, "MELANCIA");
+}
+
+void DesenharForca(char* PalavraSecreta, char* chutes, int tentativas){
 
     int achou = 0;
     printf("  ");
@@ -43,7 +48,7 @@ void VerificarNumero(char PalavraSecreta[], char chutes[], int tentativas){
 
 }
 
-void ChuteRepetido(int tentativas, char* chutes, char ChuteRodada){
+int ChuteRepetido(int tentativas, char* chutes, char ChuteRodada){
     int repetido = 0;
 
 
@@ -55,24 +60,12 @@ void ChuteRepetido(int tentativas, char* chutes, char ChuteRodada){
         }
     }
         if (repetido){
-            printf("   LETRA REPETIDA\n");
+            printf("   OPS, LETRA REPETIDA\n");
+            printf("   TENTE NOVAMENTE!\n");
             }
+
+    return repetido;
 }
-
-
-void chute (char* ChuteRodada, char chutes[], int* tentativas ){
-
-    printf("   Chute uma letra: ");
-    scanf(" %c", &*ChuteRodada);
-
-    ChuteRepetido(*tentativas, chutes, *ChuteRodada);
-
-    chutes[*tentativas] = *ChuteRodada;
-    (*tentativas)++;
-
-
-}
-
 
 void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
 
@@ -86,12 +79,34 @@ void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
             }
         }
 
-        if (!acertou){
-            printf("   OPS! TENTE OUTRA LETRA\n");
+        if (acertou){
+           printf("   EBA! LETRA ENCONTRADA\n ");
+        } else {
+             printf("   OPS! TENTE OUTRA LETRA\n");
 
         }
 
 }
+
+
+void chute (char* ChuteRodada, char* chutes, int* tentativas, char* PalavraSecreta){
+
+    printf("   Chute uma letra: ");
+    scanf(" %c", &*ChuteRodada);
+
+    int repetido = ChuteRepetido(*tentativas, chutes, *ChuteRodada);
+
+    if (!repetido){
+
+        chutes[*tentativas] = *ChuteRodada;
+        (*tentativas)++;
+        MensagemJogada(*ChuteRodada, PalavraSecreta);
+    }
+
+}
+
+
+
 
 
 int main(){
@@ -119,18 +134,19 @@ int main(){
 
 
     abertura();
+    EscolhePalavra(PalavraSecreta);
 
 
     do {
 
+        printf("      RODADA: %d\n", (tentativas+1));
+        printf("\n");
 
-        VerificarNumero(PalavraSecreta, chutes, tentativas);
+        DesenharForca(PalavraSecreta, chutes, tentativas);
 
         printf("\n");
 
-        chute(&ChuteRodada, chutes, &tentativas);
-
-        MensagemJogada(ChuteRodada, PalavraSecreta);
+        chute(&ChuteRodada, chutes, &tentativas, PalavraSecreta);
 
 
         printf("\n");
