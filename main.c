@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
+char PalavraSecreta [20];
+int tentativas =0;
+char ChuteRodada;
+char chutes[26];
+
 
 void abertura(){
 
@@ -14,12 +19,12 @@ void abertura(){
 
 }
 
-void EscolhePalavra(char* PalavraSecreta){
+void EscolhePalavra(){
 
     sprintf(PalavraSecreta, "MELANCIA");
 }
 
-void DesenharForca(char* PalavraSecreta, char* chutes, int tentativas){
+void DesenharForca(){
 
     int achou = 0;
     printf("  ");
@@ -44,11 +49,9 @@ void DesenharForca(char* PalavraSecreta, char* chutes, int tentativas){
         achou = 0;
     }
 
-
-
 }
 
-int ChuteRepetido(int tentativas, char* chutes, char ChuteRodada){
+int ChuteRepetido(){
     int repetido = 0;
 
 
@@ -67,7 +70,7 @@ int ChuteRepetido(int tentativas, char* chutes, char ChuteRodada){
     return repetido;
 }
 
-void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
+void MensagemJogada(){
 
         int acertou = 0;
 
@@ -89,18 +92,18 @@ void MensagemJogada(char ChuteRodada, char PalavraSecreta[]){
 }
 
 
-void chute (char* ChuteRodada, char* chutes, int* tentativas, char* PalavraSecreta){
+void chute (){
 
     printf("   Chute uma letra: ");
-    scanf(" %c", &*ChuteRodada);
+    scanf(" %c", &ChuteRodada);
 
-    int repetido = ChuteRepetido(*tentativas, chutes, *ChuteRodada);
+    int repetido = ChuteRepetido();
 
     if (!repetido){
 
-        chutes[*tentativas] = *ChuteRodada;
-        (*tentativas)++;
-        MensagemJogada(*ChuteRodada, PalavraSecreta);
+        chutes[tentativas] = ChuteRodada;
+        tentativas++;
+        MensagemJogada(ChuteRodada, PalavraSecreta);
     }
 
 }
@@ -111,7 +114,6 @@ void chute (char* ChuteRodada, char* chutes, int* tentativas, char* PalavraSecre
 
 int main(){
 
-    char PalavraSecreta [20];
     PalavraSecreta[0] = 'M';
     PalavraSecreta[1] = 'E';
     PalavraSecreta [2] = 'L';
@@ -123,14 +125,9 @@ int main(){
     PalavraSecreta[8] = '\0'; //indica que a string acabou
 
     int GanhouPartida, enforcou;
-    int tentativas;
-    char ChuteRodada;
-    char chutes[26];
 
     GanhouPartida = 0;
     enforcou = 0;
-    tentativas = 0;
-
 
 
     abertura();
@@ -142,11 +139,10 @@ int main(){
         printf("      RODADA: %d\n", (tentativas+1));
         printf("\n");
 
-        DesenharForca(PalavraSecreta, chutes, tentativas);
-
+        DesenharForca();
         printf("\n");
 
-        chute(&ChuteRodada, chutes, &tentativas, PalavraSecreta);
+        chute();
 
 
         printf("\n");
