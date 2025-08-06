@@ -2,7 +2,7 @@
 #include <string.h>
 
 char PalavraSecreta [20];
-int tentativas =0;
+int rodadas =0;
 char ChuteRodada;
 char chutes[26];
 
@@ -30,7 +30,7 @@ void DesenharForca(){
     printf("  ");
 
     for(int i = 0; i< strlen(PalavraSecreta); i++){
-        for (int n = 0; n < tentativas ; n++){
+        for (int n = 0; n < rodadas ; n++){
 
             if (PalavraSecreta[i] == chutes[n]){
                 achou = 1;
@@ -55,7 +55,7 @@ int ChuteRepetido(){
     int repetido = 0;
 
 
-    for(int i = 0; i < tentativas; i++){
+    for(int i = 0; i < rodadas; i++){
        if (ChuteRodada == chutes[i]){
             repetido = 1;
             break;
@@ -101,10 +101,65 @@ void chute (){
 
     if (!repetido){
 
-        chutes[tentativas] = ChuteRodada;
-        tentativas++;
+        chutes[rodadas] = ChuteRodada;
+        rodadas++;
         MensagemJogada(ChuteRodada, PalavraSecreta);
     }
+
+}
+
+int enforcou(){
+
+    int erros = 0;
+
+    for(int i =0; i < rodadas; i++){
+        int existe = 0;
+
+        for (int n = 0; n < strlen(PalavraSecreta); n++){
+
+            if (chutes[n] == PalavraSecreta[i]){
+                existe =1;
+                break;
+
+                }
+
+        }
+
+        if (!existe) erros++;
+
+    }
+
+        printf("\n");
+        printf("\n");
+        printf("\n");
+        printf(" -> TENTATIVAS RESTANTES: %d\n", (5-erros));
+        printf("\n");
+
+return erros >= 5;
+}
+
+int GanhouPartida(){
+
+    for(int i = 0; i < strlen(PalavraSecreta); i++){
+        int ganhou = 0;
+        int achou = 0;
+
+        for (int n = 0; n < rodadas; n++){
+            if (PalavraSecreta[i] == chutes[n]){
+                achou = 1;
+                continue;
+            }
+
+        }
+        if (!achou) return 0;
+    }
+
+        printf("\n");
+        printf("   ***************************\n");
+        printf("   ** VITORIA CONQUISTADA! **\n");
+        printf("   ***************************\n");
+        printf("\n");
+    return 1;
 
 }
 
@@ -124,10 +179,6 @@ int main(){
     PalavraSecreta[7] = 'A';
     PalavraSecreta[8] = '\0'; //indica que a string acabou
 
-    int GanhouPartida, enforcou;
-
-    GanhouPartida = 0;
-    enforcou = 0;
 
 
     abertura();
@@ -136,7 +187,7 @@ int main(){
 
     do {
 
-        printf("      RODADA: %d\n", (tentativas+1));
+        printf("      RODADA: %d\n", (rodadas+1));
         printf("\n");
 
         DesenharForca();
@@ -150,8 +201,7 @@ int main(){
         printf("\n");
 
 
-    } while(!GanhouPartida && !enforcou);
-
+    } while(!GanhouPartida() && !enforcou());
 
 return 0;
 }
