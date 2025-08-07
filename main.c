@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #include "forca.h"
-
 
 
 char PalavraSecreta [20];
@@ -22,15 +23,31 @@ void abertura(){
 void EscolhePalavra(){
 
     FILE* f;
+    int QntPalavras;
 
     f = fopen("palavras.txt", "r");
 
     if(f == 0){
         printf("\n");
         printf("   Banco de dados de palavras nao disponivel \n");
-        //exit(1);
+        exit(1);
 
     }
+
+    fscanf(f, "%d", &QntPalavras);
+
+    srand(time(0));
+    double NumeroAleatorio = rand()%QntPalavras;
+
+
+    for(int i = 0; i <= NumeroAleatorio; i++){
+
+        fscanf(f, "%s",PalavraSecreta);
+
+    }
+    //printf("%s\n", PalavraSecreta);
+
+    fclose(f);
 }
 
 void DesenharForca(){
@@ -171,20 +188,8 @@ int GanhouPartida(){
 
 int main(){
 
-   // PalavraSecreta[0] = 'M';
-   // PalavraSecreta[1] = 'E';
-  //  PalavraSecreta [2] = 'L';
-   // PalavraSecreta[3] = 'A';
-   // PalavraSecreta[4] = 'N';
-   // PalavraSecreta [5] = 'C';
-   // PalavraSecreta[6] = 'I';
-   // PalavraSecreta[7] = 'A';
-   // PalavraSecreta[8] = '\0'; //indica que a string acabou
-
-
-
     abertura();
-    PalavraSecreta = EscolhePalavra();
+    EscolhePalavra();
 
 
     do {
