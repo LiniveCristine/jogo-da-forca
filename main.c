@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include "forca.h"
+
+
 
 char PalavraSecreta [20];
 int rodadas =0;
@@ -10,18 +13,24 @@ char chutes[26];
 void abertura(){
 
     printf("\n");
-    printf("   ****************************\n");
-    printf("\n");
-    printf("   BEM VINDO AO JOGO DA FORCA\n");
-    printf("\n");
-    printf("   ****************************\n");
-    printf("\n");
+    printf("   ****************************\n\n");
+    printf("   BEM VINDO AO JOGO DA FORCA\n\n");
+    printf("   ****************************\n\n");
 
 }
 
 void EscolhePalavra(){
 
-    sprintf(PalavraSecreta, "MELANCIA");
+    FILE* f;
+
+    f = fopen("palavras.txt", "r");
+
+    if(f == 0){
+        printf("\n");
+        printf("   Banco de dados de palavras nao disponivel \n");
+        //exit(1);
+
+    }
 }
 
 void DesenharForca(){
@@ -47,6 +56,22 @@ void DesenharForca(){
 
         }
         achou = 0;
+    }
+
+}
+
+void chute (){
+
+    printf("   Chute uma letra: ");
+    scanf(" %c", &ChuteRodada);
+
+    int repetido = ChuteRepetido();
+
+    if (!repetido){
+
+        chutes[rodadas] = ChuteRodada;
+        rodadas++;
+        MensagemJogada(ChuteRodada, PalavraSecreta);
     }
 
 }
@@ -92,22 +117,6 @@ void MensagemJogada(){
 }
 
 
-void chute (){
-
-    printf("   Chute uma letra: ");
-    scanf(" %c", &ChuteRodada);
-
-    int repetido = ChuteRepetido();
-
-    if (!repetido){
-
-        chutes[rodadas] = ChuteRodada;
-        rodadas++;
-        MensagemJogada(ChuteRodada, PalavraSecreta);
-    }
-
-}
-
 int enforcou(){
 
     int erros = 0;
@@ -122,18 +131,14 @@ int enforcou(){
                 break;
 
                 }
-
         }
 
         if (!existe) erros++;
 
     }
 
-        printf("\n");
-        printf("\n");
-        printf("\n");
-        printf(" -> TENTATIVAS RESTANTES: %d\n", (5-erros));
-        printf("\n");
+        printf("\n\n\n");
+        printf(" -> TENTATIVAS RESTANTES: %d\n\n", (5-erros));
 
 return erros >= 5;
 }
@@ -157,38 +162,34 @@ int GanhouPartida(){
         printf("\n");
         printf("   ***************************\n");
         printf("   ** VITORIA CONQUISTADA! **\n");
-        printf("   ***************************\n");
-        printf("\n");
+        printf("   ***************************\n\n");
     return 1;
 
 }
 
 
 
-
-
 int main(){
 
-    PalavraSecreta[0] = 'M';
-    PalavraSecreta[1] = 'E';
-    PalavraSecreta [2] = 'L';
-    PalavraSecreta[3] = 'A';
-    PalavraSecreta[4] = 'N';
-    PalavraSecreta [5] = 'C';
-    PalavraSecreta[6] = 'I';
-    PalavraSecreta[7] = 'A';
-    PalavraSecreta[8] = '\0'; //indica que a string acabou
+   // PalavraSecreta[0] = 'M';
+   // PalavraSecreta[1] = 'E';
+  //  PalavraSecreta [2] = 'L';
+   // PalavraSecreta[3] = 'A';
+   // PalavraSecreta[4] = 'N';
+   // PalavraSecreta [5] = 'C';
+   // PalavraSecreta[6] = 'I';
+   // PalavraSecreta[7] = 'A';
+   // PalavraSecreta[8] = '\0'; //indica que a string acabou
 
 
 
     abertura();
-    EscolhePalavra(PalavraSecreta);
+    PalavraSecreta = EscolhePalavra();
 
 
     do {
 
-        printf("      RODADA: %d\n", (rodadas+1));
-        printf("\n");
+        printf("      RODADA: %d\n\n", (rodadas+1));
 
         DesenharForca();
         printf("\n");
@@ -197,8 +198,7 @@ int main(){
 
 
         printf("\n");
-        printf("   ***********************\n");
-        printf("\n");
+        printf("   ***********************\n\n");
 
 
     } while(!GanhouPartida() && !enforcou());
