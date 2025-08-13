@@ -9,5 +9,6 @@ void MensagemJogada();
 void chute();
 int enforcou();
 int GanhouPartida();
+void AdicionarPalavra();
 
 #endif // FORCA_H_INCLUDED

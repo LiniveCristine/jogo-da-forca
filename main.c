@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <locale.h>
 #include "forca.h"
 
 
@@ -29,7 +30,7 @@ void EscolhePalavra(){
 
     if(f == 0){
         printf("\n");
-        printf("   Banco de dados de palavras nao disponivel \n");
+        printf("   Banco de dados de palavras não disponível \n");
         exit(1);
 
     }
@@ -178,15 +179,62 @@ int GanhouPartida(){
 
         printf("\n");
         printf("   ***************************\n");
-        printf("   ** VITORIA CONQUISTADA! **\n");
+        printf("   ** VITÓRIA CONQUISTADA! **\n");
         printf("   ***************************\n\n");
     return 1;
 
 }
 
 
+void AdicionarPalavra(){
+
+    char adicionar;
+
+    printf("\n");
+    printf("   Deseja adicionar uma palavra?\n");
+    printf("   S- SIM \n   N- Não\n");
+
+    scanf(" %c", &adicionar);
+
+    if (adicionar == 'S'){
+
+        char NovaPalavra[20];
+        FILE* f;
+
+        printf("\nDigite uma palavra em MAIÚSCULO: ");
+        scanf("%s", &NovaPalavra);
+
+
+        f = fopen("palavras.txt", "r+");
+        if(f == 0){
+            printf("\nBanco de dados não dosponível\n\n");
+            exit(1);
+        }
+
+        int QntPalavras;
+        fscanf(f,"%d", &QntPalavras);
+
+        QntPalavras++;
+        fseek(f, 0, SEEK_SET);
+        fprintf(f, "%d", QntPalavras);
+
+
+        fseek(f, 0, SEEK_END);
+        fprintf(f, "\n%s", NovaPalavra);
+
+        fclose(f);
+
+    }
+
+
+
+}
+
+
 
 int main(){
+
+    setlocale(LC_ALL, "Portuguese");
 
     abertura();
     EscolhePalavra();
@@ -207,6 +255,8 @@ int main(){
 
 
     } while(!GanhouPartida() && !enforcou());
+
+    AdicionarPalavra();
 
 return 0;
 }
