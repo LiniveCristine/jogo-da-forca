@@ -6,7 +6,7 @@
 #include "forca.h"
 
 
-char PalavraSecreta [20];
+char PalavraSecreta [TAMANHO_PALAVRA];
 int rodadas =0;
 char ChuteRodada;
 char chutes[26];
@@ -53,6 +53,16 @@ void EscolhePalavra(){
 
 void DesenharForca(){
 
+
+
+printf("      +---+       \n");
+printf("       |   |      \n");
+printf("       O   |      \n");
+printf("      /|\\  |     \n");
+printf("      / \\  |     \n");
+printf("           |      \n");
+printf("      =========   \n");
+
     int achou = 0;
     printf("  ");
 
@@ -89,7 +99,7 @@ void chute (){
 
         chutes[rodadas] = ChuteRodada;
         rodadas++;
-        MensagemJogada(ChuteRodada, PalavraSecreta);
+        MensagemJogada();
     }
 
 }
@@ -134,31 +144,43 @@ void MensagemJogada(){
 
 }
 
-
 int enforcou(){
+
+    int erros = NumeroErros();
+
+    printf("\n\n\n");
+    printf(" -> TENTATIVAS RESTANTES: %d\n\n", (5-erros));
+
+return erros >= 5;
+}
+
+int NumeroErros(){
 
     int erros = 0;
 
     for(int i =0; i < rodadas; i++){
-        int existe = 0;
+        int existe;
 
-        for (int n = 0; n < strlen(PalavraSecreta); n++){
-
-            if (chutes[n] == PalavraSecreta[i]){
-                existe =1;
-                break;
-
-                }
-        }
+        existe = LetraExiste(i);
 
         if (!existe) erros++;
 
     }
 
-        printf("\n\n\n");
-        printf(" -> TENTATIVAS RESTANTES: %d\n\n", (5-erros));
+    return erros;
+}
 
-return erros >= 5;
+int LetraExiste(int i){
+
+    for (int n = 0; n < strlen(PalavraSecreta); n++){
+
+        if (chutes[i] == PalavraSecreta[n]){
+            return 1;
+
+        }
+    }
+
+    return 0;
 }
 
 int GanhouPartida(){
@@ -192,13 +214,13 @@ void AdicionarPalavra(){
 
     printf("\n");
     printf("   Deseja adicionar uma palavra?\n");
-    printf("   S- SIM \n   N- Não\n");
-
+    printf("   S- SIM   N- Não\n");
+    printf("   Resposta: ");
     scanf(" %c", &adicionar);
 
     if (adicionar == 'S'){
 
-        char NovaPalavra[20];
+        char NovaPalavra[TAMANHO_PALAVRA];
         FILE* f;
 
         printf("\nDigite uma palavra em MAIÚSCULO: ");
@@ -225,8 +247,6 @@ void AdicionarPalavra(){
         fclose(f);
 
     }
-
-
 
 }
 
