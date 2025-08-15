@@ -53,17 +53,20 @@ void EscolhePalavra(){
 
 void DesenharForca(){
 
+    int erros = NumeroErros();
 
 
-printf("      +---+       \n");
-printf("       |   |      \n");
-printf("       O   |      \n");
-printf("      /|\\  |     \n");
-printf("      / \\  |     \n");
-printf("           |      \n");
-printf("      =========   \n");
+
+    printf("       +---+       \n");
+    printf("       |   |      \n");
+    printf("       %c   |      \n", (erros >= 1? 'O': ' '));
+    printf("      %c%c%c  |     \n", (erros >= 2? '/': ' '), (erros >= 3? '|' : ' '), (erros >= 3? '\\': ' '));
+    printf("      %c %c  |     \n", (erros >=4 ? '/': ' '), (erros >=4? '\\': ' '));
+    printf("           |      \n");
+    printf("      =========   \n");
 
     int achou = 0;
+
     printf("  ");
 
     for(int i = 0; i< strlen(PalavraSecreta); i++){
@@ -116,7 +119,7 @@ int ChuteRepetido(){
         }
     }
         if (repetido){
-            printf("   OPS, LETRA REPETIDA\n");
+            printf("\n\n   OPS, LETRA REPETIDA\n");
             printf("   TENTE NOVAMENTE!\n");
             }
 
@@ -136,20 +139,97 @@ void MensagemJogada(){
         }
 
         if (acertou){
-           printf("   EBA! LETRA ENCONTRADA\n ");
+           printf("\n\n    EBA! LETRA ENCONTRADA\n ");
         } else {
-             printf("   OPS! TENTE OUTRA LETRA\n");
+             printf("\n\n    OPS! TENTE OUTRA LETRA\n");
 
         }
+
+        int TentativasRestantes = 5-NumeroErros();
+
+        if(TentativasRestantes != 0 && !GanhouPartida()){
+            printf("-> TENTATIVAS RESTANTES: %d\n\n", TentativasRestantes );
+        }
+
+
+}
+
+void MensagemFinal(){
+
+    if(GanhouPartida()){
+
+
+         printf(" ##      ####                ##        ##    \n");
+         printf(" ####      ##              ####      ##      \n");
+         printf("   ##        ##            ##      ####      \n");
+         printf("     ##      ####        ##        ##        \n");
+         printf("     ####      ##      ####      ####        \n");
+         printf("       ##              ##      ####          \n");
+         printf("         ##          ##        ##            \n");
+         printf("         ####      ####      ##              \n");
+         printf("           ##  ################              \n");
+         printf("           ##################                \n");
+         printf("           ####################              \n");
+         printf("         ########      ##########            \n");
+         printf("         ########      ##########            \n");
+         printf("       ############    ##########            \n");
+         printf("       ############    ##########            \n");
+         printf("         ##########    ##########            \n");
+         printf("         ##########    ##########            \n");
+         printf("         ######################              \n");
+         printf("           ####################              \n");
+         printf("             ##############                  \n");
+         printf("                   ####                      \n");
+
+
+
+        printf("\n");
+        printf("       ***************************\n");
+        printf("       ** VITÓRIA CONQUISTADA! **\n");
+        printf("       ***************************\n\n");
+
+    } else {
+
+
+        printf("                  ################                \n");
+        printf("              ########################            \n");
+        printf("            ############################          \n");
+        printf("         ################################         \n");
+        printf("          ################################        \n");
+        printf("        ####################################      \n");
+        printf("        ####################################      \n");
+        printf("        ######################################    \n");
+        printf("      ########################################    \n");
+        printf("      ########################################    \n");
+        printf("      ########      ++##########      ########    \n");
+        printf("      MM####          ########          ######    \n");
+        printf("      @@####            @@##..          @@####    \n");
+        printf("      --@@##            ######          MM####    \n");
+        printf("        ####          ########          ####      \n");
+        printf("        ####################################      \n");
+        printf("        ################    ################      \n");
+        printf("      --##############        ################    \n");
+        printf("      @@##############        ################    \n");
+        printf("        ##############  ::MM  ##############      \n");
+        printf("                ####################              \n");
+        printf("                @@##################              \n");
+        printf("                  ##  ####++##  ####              \n");
+        printf("                ::##  ####++##  ####              \n");
+        printf("                        --..                      \n");
+
+
+        printf("\n");
+        printf("               ***********************\n");
+        printf("               *** PERDEU O JOGO!! ***\n");
+        printf("               ***********************\n");
+
+    }
 
 }
 
 int enforcou(){
 
     int erros = NumeroErros();
-
-    printf("\n\n\n");
-    printf(" -> TENTATIVAS RESTANTES: %d\n\n", (5-erros));
 
 return erros >= 5;
 }
@@ -199,10 +279,6 @@ int GanhouPartida(){
         if (!achou) return 0;
     }
 
-        printf("\n");
-        printf("   ***************************\n");
-        printf("   ** VITÓRIA CONQUISTADA! **\n");
-        printf("   ***************************\n\n");
     return 1;
 
 }
@@ -276,6 +352,7 @@ int main(){
 
     } while(!GanhouPartida() && !enforcou());
 
+    MensagemFinal();
     AdicionarPalavra();
 
 return 0;

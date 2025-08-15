@@ -13,6 +13,6 @@ int GanhouPartida();
 void AdicionarPalavra();
 int NumeroErros();
 int LetraExiste();
-
+void MensagemFinal();
 
 #endif // FORCA_H_INCLUDED
