@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1755274152 source:c:\users\acer\documents\estudos\livro-c\codigos\forca\main.c
+1755407211 source:c:\users\acer\documents\estudos\livro-c\codigos\forca\main.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -7,5 +7,5 @@
 	<locale.h>
 	"forca.h"
 
-1755273984 c:\users\acer\documents\estudos\livro-c\codigos\forca\forca.h
+1755406267 c:\users\acer\documents\estudos\livro-c\codigos\forca\forca.h
 

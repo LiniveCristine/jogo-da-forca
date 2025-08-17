@@ -13,7 +13,7 @@ char chutes[26];
 
 
 void abertura(){
-
+    printf("%d\n%d", 'A', 'Z');
     printf("\n");
     printf("   ****************************\n\n");
     printf("   BEM VINDO AO JOGO DA FORCA\n\n");
@@ -91,14 +91,16 @@ void DesenharForca(){
 
 }
 
+
 void chute (){
 
     printf("   Chute uma letra: ");
     scanf(" %c", &ChuteRodada);
 
     int repetido = ChuteRepetido();
+    int invalido = ChuteInvalido();
 
-    if (!repetido){
+    if (!repetido && !invalido){
 
         chutes[rodadas] = ChuteRodada;
         rodadas++;
@@ -125,6 +127,24 @@ int ChuteRepetido(){
 
     return repetido;
 }
+
+
+int ChuteInvalido(){
+
+    int invalido = 1;
+
+    if (ChuteRodada >= 65 && ChuteRodada <= 90 ){
+        invalido = 0;
+
+    } else {
+        printf("\n\n   OPS, CARACTER INVALIDO\n");
+        printf("   DIGITE UMA LETRA DE A a Z!\n");
+
+    }
+
+return invalido;
+}
+
 
 void MensagemJogada(){
 
@@ -312,18 +332,51 @@ void AdicionarPalavra(){
         int QntPalavras;
         fscanf(f,"%d", &QntPalavras);
 
-        QntPalavras++;
-        fseek(f, 0, SEEK_SET);
-        fprintf(f, "%d", QntPalavras);
+        int PalavraR = PalavraRepetida(NovaPalavra, f, QntPalavras);
+
+        // DO-WHILE PARA PEIR PALAVRA AE NÃO SE REPETIDA??
+        if (!PalavraR){
+            QntPalavras++;
+            fseek(f, 0, SEEK_SET);
+            fprintf(f, "%d", QntPalavras);
 
 
-        fseek(f, 0, SEEK_END);
-        fprintf(f, "\n%s", NovaPalavra);
+            fseek(f, 0, SEEK_END);
+            fprintf(f, "\n%s", NovaPalavra);
 
-        fclose(f);
 
+        }
+         fclose(f);
+    }
+}
+
+int PalavraRepetida(char* NovaPalavra, FILE* f, int QntPalavras){
+
+    int PalavraRepetida;
+    char PalavraBD[TAMANHO_PALAVRA];
+
+    for (int i = 0; i <= QntPalavras; i++){
+
+        PalavraRepetida = 0;
+        fscanf(f, "%s", &PalavraBD);
+
+        for (int n = 0; n <= strlen(PalavraBD); n++){
+            if (PalavraBD[n] != NovaPalavra[n]){
+                break;
+            } else {
+                PalavraRepetida = 1;
+            }
+        }
+        if (PalavraRepetida){
+
+            printf("PALAVRAS IGUAIS: %S = %S", PalavraBD, NovaPalavra);
+            printf("\n\n   OPS, PALAVRA JÁ EXISTENTE\n");
+            printf("   TENTE NOVAMENTE!\n");
+            break;
+        }
     }
 
+return PalavraRepetida;
 }
 
 

@@ -14,5 +14,7 @@ void AdicionarPalavra();
 int NumeroErros();
 int LetraExiste();
 void MensagemFinal();
+int ChuteInvalido();
+int PalavraRepetida();
 
 #endif // FORCA_H_INCLUDED
