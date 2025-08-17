@@ -3,6 +3,7 @@
 #define TAMANHO_PALAVRA 20
 
 void abertura();
+void menu();
 void EscolhePalavra();
 void DesenharForca();
 int ChuteRepetido();

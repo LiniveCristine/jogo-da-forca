@@ -7,17 +7,45 @@
 
 
 char PalavraSecreta [TAMANHO_PALAVRA];
-int rodadas =0;
+int rodadas = 0;
 char ChuteRodada;
 char chutes[26];
+int NumeroTentativas;
+int nivel;
 
 
 void abertura(){
-    printf("%d\n%d", 'A', 'Z');
     printf("\n");
     printf("   ****************************\n\n");
     printf("   BEM VINDO AO JOGO DA FORCA\n\n");
     printf("   ****************************\n\n");
+
+}
+
+void menu(){
+
+    printf("\n      ***** MENU ***** \n\n");
+    printf("       1 - FÁCIL\n");
+    printf("       2 - MÉDIO\n");
+    printf("       3 - DIFÍCIL\n");
+
+    printf("\n       RESPOSTA: ");
+    scanf("%d", &nivel);
+
+    switch (nivel){
+    case 1:
+        NumeroTentativas = 15;
+        break;
+
+    case 2:
+        NumeroTentativas = 10;
+        break;
+
+    default:
+        NumeroTentativas = 5;
+        break;
+
+    }
 
 }
 
@@ -40,13 +68,11 @@ void EscolhePalavra(){
     srand(time(0));
     double NumeroAleatorio = rand()%QntPalavras;
 
-
     for(int i = 0; i <= NumeroAleatorio; i++){
 
         fscanf(f, "%s",PalavraSecreta);
 
     }
-    //printf("%s\n", PalavraSecreta);
 
     fclose(f);
 }
@@ -55,15 +81,38 @@ void DesenharForca(){
 
     int erros = NumeroErros();
 
+    if (nivel == 1){
+        printf("       +---+       \n");
+        printf("       |   |      \n");
+        printf("       %c   |      \n", (erros >= 5? 'O': ' '));
+        printf("      %c%c%c  |     \n", (erros >= 8? '/': ' '), (erros >= 10? '|' : ' '), (erros >= 10? '\\': ' '));
+        printf("      %c %c  |     \n", (erros >=13 ? '/': ' '), (erros >=14? '\\': ' '));
+        printf("           |      \n");
+        printf("      =========   \n");
 
 
-    printf("       +---+       \n");
-    printf("       |   |      \n");
-    printf("       %c   |      \n", (erros >= 1? 'O': ' '));
-    printf("      %c%c%c  |     \n", (erros >= 2? '/': ' '), (erros >= 3? '|' : ' '), (erros >= 3? '\\': ' '));
-    printf("      %c %c  |     \n", (erros >=4 ? '/': ' '), (erros >=4? '\\': ' '));
-    printf("           |      \n");
-    printf("      =========   \n");
+    } else if (nivel == 2){
+        printf("       +---+       \n");
+        printf("       |   |      \n");
+        printf("       %c   |      \n", (erros >= 3? 'O': ' '));
+        printf("      %c%c%c  |     \n", (erros >= 4? '/': ' '), (erros >= 6? '|' : ' '), (erros >= 6? '\\': ' '));
+        printf("      %c %c  |     \n", (erros >=8 ? '/': ' '), (erros >=9? '\\': ' '));
+        printf("           |      \n");
+        printf("      =========   \n");
+
+    } else{
+
+        printf("       +---+       \n");
+        printf("       |   |      \n");
+        printf("       %c   |      \n", (erros >= 1? 'O': ' '));
+        printf("      %c%c%c  |     \n", (erros >= 2? '/': ' '), (erros >= 3? '|' : ' '), (erros >= 3? '\\': ' '));
+        printf("      %c %c  |     \n", (erros >=4 ? '/': ' '), (erros >=4? '\\': ' '));
+        printf("           |      \n");
+        printf("      =========   \n");
+
+    }
+
+
 
     int achou = 0;
 
@@ -165,7 +214,7 @@ void MensagemJogada(){
 
         }
 
-        int TentativasRestantes = 5-NumeroErros();
+        int TentativasRestantes = NumeroTentativas-NumeroErros();
 
         if(TentativasRestantes != 0 && !GanhouPartida()){
             printf("-> TENTATIVAS RESTANTES: %d\n\n", TentativasRestantes );
@@ -251,7 +300,7 @@ int enforcou(){
 
     int erros = NumeroErros();
 
-return erros >= 5;
+return erros >= NumeroTentativas;
 }
 
 int NumeroErros(){
@@ -286,7 +335,6 @@ int LetraExiste(int i){
 int GanhouPartida(){
 
     for(int i = 0; i < strlen(PalavraSecreta); i++){
-        int ganhou = 0;
         int achou = 0;
 
         for (int n = 0; n < rodadas; n++){
@@ -332,9 +380,9 @@ void AdicionarPalavra(){
         int QntPalavras;
         fscanf(f,"%d", &QntPalavras);
 
+
         int PalavraR = PalavraRepetida(NovaPalavra, f, QntPalavras);
 
-        // DO-WHILE PARA PEIR PALAVRA AE NÃO SE REPETIDA??
         if (!PalavraR){
             QntPalavras++;
             fseek(f, 0, SEEK_SET);
@@ -344,8 +392,11 @@ void AdicionarPalavra(){
             fseek(f, 0, SEEK_END);
             fprintf(f, "\n%s", NovaPalavra);
 
+            } else {
 
-        }
+                AdicionarPalavra();
+            }
+
          fclose(f);
     }
 }
@@ -363,15 +414,15 @@ int PalavraRepetida(char* NovaPalavra, FILE* f, int QntPalavras){
         for (int n = 0; n <= strlen(PalavraBD); n++){
             if (PalavraBD[n] != NovaPalavra[n]){
                 break;
+
             } else {
                 PalavraRepetida = 1;
             }
         }
         if (PalavraRepetida){
 
-            printf("PALAVRAS IGUAIS: %S = %S", PalavraBD, NovaPalavra);
             printf("\n\n   OPS, PALAVRA JÁ EXISTENTE\n");
-            printf("   TENTE NOVAMENTE!\n");
+            printf("    TENTE NOVAMENTE!\n");
             break;
         }
     }
@@ -386,12 +437,13 @@ int main(){
     setlocale(LC_ALL, "Portuguese");
 
     abertura();
+    menu();
     EscolhePalavra();
 
 
     do {
 
-        printf("      RODADA: %d\n\n", (rodadas+1));
+        printf("\n\n      RODADA: %d\n\n", (rodadas+1));
 
         DesenharForca();
         printf("\n");
@@ -406,7 +458,12 @@ int main(){
     } while(!GanhouPartida() && !enforcou());
 
     MensagemFinal();
-    AdicionarPalavra();
+
+    if (GanhouPartida()){
+        AdicionarPalavra();
+
+    }
+
 
 return 0;
 }
